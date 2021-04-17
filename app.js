@@ -9,7 +9,149 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { inherits } = require("util");
 
+employees = [];
+
+const managerQuestions = [
+    {
+      type: 'input',
+      message: 'Please enter the team manager\'s name?',
+      name: 'managerName',
+    },
+    {
+      type: 'input',
+      message: 'Please enter the team manager\'s employee ID?',
+      name: 'managerId',
+    },
+    {
+      type: 'input',
+      message: 'Please enter the team manager\'s emailAddress',
+      name: 'managerEmailAddress',
+    },
+    {
+        type: 'input',
+        message: 'Please enter the team manager\'s office number',
+        name: 'officeNumber',
+    },
+    {
+        type: 'list',
+        message: 'Would you like to add an Intern or Engineer?',
+        name: 'internOrEngineer',
+        choices: ['Intern', 'Engineer', 'Finished Building Team']
+      }
+];
+
+
+const engineerQuestions = [
+    {
+      type: 'input',
+      message: 'Please enter the engineer\'s name?',
+      name: 'engineerName',
+    },
+    {
+      type: 'input',
+      message: 'Please enter the team engineer\'s employee ID?',
+      name: 'engineerId',
+    },
+    {
+      type: 'input',
+      message: 'Please enter the engineer\'s emailAddress',
+      name: 'engineerEmailAddress',
+    },
+    {
+      type: 'input',
+      message: 'Please enter the engineer\'s GitHub username',
+      name: 'engineerGitHub',
+    },
+    {
+        type: 'list',
+        message: 'Would you like to add an Intern or Engineer?',
+        name: 'internOrEngineer',
+        choices: ['Intern', 'Engineer', 'Finished Building Team']
+    }
+];
+
+
+const internQuestions = [
+    {
+      type: 'input',
+      message: 'Please enter the intern\'s name?',
+      name: 'internName',
+    },
+    {
+      type: 'input',
+      message: 'Please enter the intern\'s employee ID?',
+      name: 'internId',
+    },
+    {
+      type: 'input',
+      message: 'Please enter the intern\'s emailAddress',
+      name: 'internEmailAddress',
+    },
+    {
+      type: 'input',
+      message: 'Please enter the intern\'s school',
+      name: 'internSchool',
+    },
+    {
+        type: 'list',
+        message: 'Would you like to add an Intern or Engineer?',
+        name: 'internOrEngineer',
+        choices: ['Intern', 'Engineer', 'Finished Building Team']
+    }
+];
+
+
+var questions = managerQuestions;
+
+function init() {
+
+    inquirer
+        .prompt(questions)
+        .then((answers) => {
+            if (questions === managerQuestions) {
+                var manager = new Manager(answers);
+                employees.push(manager);
+             } else if (questions === internQuestions) {
+                var intern = new Intern(answers);
+                employees.push(intern);
+            } else if (questions === engineerQuestions) {
+                var engineer = new Engineer(answers);
+                employees.push(engineer);
+            }
+
+
+
+            if (answers.internOrEngineer === 'Intern') {
+                questions = internQuestions;
+                init()
+            } else if (answers.internOrEngineer === 'Engineer') {
+                questions = engineerQuestions;
+                init();
+            }
+            else {
+                console.log(employees);
+                console.log(OUTPUT_DIR);
+                render(employees);
+                // fs.writeFile(OUTPUT_DIR + '/team.html', render(employees), (err) => {
+                //     if (err) {
+                //         console.log(err);
+                //     } else console.log(`Generating HTML...`);
+
+                // });
+                fs.writeFile('./team.html', render(employees), (err) => {
+                    if (err) {
+                        console.log(err);
+                    } else console.log(`Generating HTML...`);
+
+                });
+            }
+        })
+}
+
+
+init();
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
