@@ -136,13 +136,14 @@ function init() {
             else {
                 console.log(employees);
                 console.log(OUTPUT_DIR);
-                // fs.writeFile(OUTPUT_DIR + '/team.html', render(employees), (err) => {
-                //     if (err) {
-                //         console.log(err);
-                //     } else console.log(`Generating HTML...`);
-
-                // });
-                fs.writeFile('./team.html', render(employees), (err) => {
+                if (!fs.existsSync(OUTPUT_DIR)) {
+                  fs.mkdir(OUTPUT_DIR, (err) => {
+                    if (err) {
+                      return console.error(err);
+                    }
+                  });
+                }
+                fs.writeFile(outputPath, render(employees), (err) => {
                     if (err) {
                         console.log(err);
                     } else console.log(`Generating HTML...`);
