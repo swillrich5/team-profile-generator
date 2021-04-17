@@ -111,13 +111,16 @@ function init() {
         .prompt(questions)
         .then((answers) => {
             if (questions === managerQuestions) {
-                var manager = new Manager(answers);
+                var manager = new Manager(answers.managerName, answers.managerId, answers.managerEmailAddress, answers.officeNumber);
+                manager.role = 'Manager';
                 employees.push(manager);
              } else if (questions === internQuestions) {
-                var intern = new Intern(answers);
+                var intern = new Intern(answers.internName, answers.internId, answers.internEmailAddress, answers.internSchool);
+                intern.role = 'Intern';
                 employees.push(intern);
             } else if (questions === engineerQuestions) {
-                var engineer = new Engineer(answers);
+                var engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmailAddress, answers.engineerGitHub);
+                engineer.role = 'Engineer';
                 employees.push(engineer);
             }
 
@@ -133,7 +136,6 @@ function init() {
             else {
                 console.log(employees);
                 console.log(OUTPUT_DIR);
-                render(employees);
                 // fs.writeFile(OUTPUT_DIR + '/team.html', render(employees), (err) => {
                 //     if (err) {
                 //         console.log(err);
