@@ -11,6 +11,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const { inherits } = require("util");
 
+// array of employee objects
 employees = [];
 
 const managerQuestions = [
@@ -105,6 +106,12 @@ const internQuestions = [
 
 var questions = managerQuestions;
 
+
+// init() runs the manager questions the first time through.  The last manager 
+// question asks the user if he/she wants to add another team member, either
+// an intern or an engineer, or stop adding to the team.  If adding an intern
+// or an engineer, init() calls itself (recursion?) with either the intern or
+// engineer questions.
 function init() {
 
     inquirer
@@ -112,20 +119,18 @@ function init() {
         .then((answers) => {
             if (questions === managerQuestions) {
                 var manager = new Manager(answers.managerName, answers.managerId, answers.managerEmailAddress, answers.officeNumber);
-                manager.role = 'Manager';
                 employees.push(manager);
              } else if (questions === internQuestions) {
                 var intern = new Intern(answers.internName, answers.internId, answers.internEmailAddress, answers.internSchool);
-                intern.role = 'Intern';
                 employees.push(intern);
             } else if (questions === engineerQuestions) {
                 var engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmailAddress, answers.engineerGitHub);
-                engineer.role = 'Engineer';
                 employees.push(engineer);
             }
 
 
-
+            // determine if we're adding an intern or enginer, or 
+            // stopping and generating the HTML for the teamn
             if (answers.internOrEngineer === 'Intern') {
                 questions = internQuestions;
                 init()
@@ -134,8 +139,8 @@ function init() {
                 init();
             }
             else {
-                if (!fs.existsSync(OUTPUT_DIR)) {
-                  fs.mkdir(OUTPUT_DIR, (err) => {
+                if (!fs.existsSync(OUTPUT_DIR)) {   // check if output
+                  fs.mkdir(OUTPUT_DIR, (err) => {   // directory exists
                     if (err) {
                       return console.error(err);
                     }
@@ -151,7 +156,7 @@ function init() {
         })
 }
 
-
+// kick off the application
 init();
 
 // Write code to use inquirer to gather information about the development team members,
