@@ -134,8 +134,6 @@ function init() {
                 init();
             }
             else {
-                console.log(employees);
-                console.log(OUTPUT_DIR);
                 if (!fs.existsSync(OUTPUT_DIR)) {
                   fs.mkdir(OUTPUT_DIR, (err) => {
                     if (err) {
