@@ -4,6 +4,7 @@
 }
 
 .card {
-    min-width: 20rem;
+    min-width: 300px;
+    max-width: 300px;
 }
 
