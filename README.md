@@ -9,6 +9,8 @@ Generated My Team Page
 ---
 
 
+
+
 ## Description
 
 Using node.js with the inquirer and fs modules, create a team profile generator written with JavaScript classes.  Code will be tested using jest.
@@ -22,6 +24,8 @@ Using node.js with the inquirer and fs modules, create a team profile generator 
 * [Usage](#usage)
 
 * [Testing](#testing) 
+
+* [Walkthrough Video](#walkthrough%20video)
 
 * [License](#license)
 
@@ -49,6 +53,11 @@ The program can be run entering:
 node app
 
 ```
+---
+
+## Walkthrough Video 
+
+https://drive.google.com/file/d/1y_pN16b1rZcSUhmd42ia_oZRAAmQyc77/view?usp=sharing
 
 ---
 
